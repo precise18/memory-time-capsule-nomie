@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Happy Birthday, Nomie! 💗</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Quicksand:wght@300;400;600;700&display=swap" rel="stylesheet" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background: #fcf6f2;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        #login-screen {
+            background: #ffffff;
+            padding: 50px 40px;
+            border-radius: 40px;
+            max-width: 420px;
+            width: 100%;
+            box-shadow: 0 20px 60px rgba(255, 182, 193, 0.2), 0 8px 20px rgba(255, 182, 193, 0.15);
+            border: 1px solid #fce4ec;
+            text-align: center;
+            transition: opacity 0.5s ease;
+        }
+
+        #login-screen.hidden {
+            display: none;
+        }
+
+        #login-screen h1 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 3rem;
+            color: #f8a4b8;
+            margin-bottom: 4px;
+            font-weight: 700;
+        }
+
+        #login-screen .subtitle {
+            font-family: 'Quicksand', sans-serif;
+            color: #d4a0a8;
+            font-weight: 300;
+            font-size: 0.95rem;
+            letter-spacing: 2px;
+            margin-bottom: 28px;
+        }
+
+        .input-group {
+            margin-bottom: 18px;
+            text-align: left;
+        }
+
+        .input-group label {
+            color: #c98a96;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 600;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 14px 16px;
+            margin-top: 6px;
+            background: #fdf5f7;
+            border: 1.5px solid #fadadd;
+            border-radius: 20px;
+            color: #5a4045;
+            font-size: 1rem;
+            font-family: 'Quicksand', sans-serif;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        .input-group input:focus {
+            border-color: #f8a4b8;
+            box-shadow: 0 0 0 4px rgba(248, 164, 184, 0.15);
+            background: #ffffff;
+        }
+
+        .input-group input::placeholder {
+            color: #dbb5bc;
+            font-weight: 300;
+        }
+
+        #login-error {
+            color: #e8808f;
+            font-size: 0.85rem;
+            margin: 10px 0;
+            min-height: 24px;
+            font-weight: 600;
+        }
+
+        #login-btn {
+            width: 100%;
+            padding: 16px;
+            background: #f8a4b8;
+            border: none;
+            border-radius: 40px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            font-family: 'Quicksand', sans-serif;
+            color: #ffffff;
+            cursor: pointer;
+            transition: 0.3s;
+            letter-spacing: 1px;
+            margin-top: 8px;
+            box-shadow: 0 6px 20px rgba(248, 164, 184, 0.35);
+        }
+
+        #login-btn:hover {
+            background: #f58da6;
+            transform: scale(1.02);
+            box-shadow: 0 8px 28px rgba(248, 164, 184, 0.45);
+        }
+
+        #login-btn:active {
+            transform: scale(0.97);
+        }
+
+        .hint-text {
+            margin-top: 22px;
+            color: #dbb5bc;
+            font-size: 0.75rem;
+            letter-spacing: 1px;
+            font-weight: 300;
+        }
+
+        .hint-text strong {
+            color: #f8a4b8;
+            font-weight: 600;
+        }
+
+        #timeline {
+            display: none;
+            max-width: 780px;
+            width: 100%;
+            padding: 20px 0;
+        }
+
+        #timeline.active {
+            display: block;
+            animation: fadeIn 0.8s ease;
+        }
+
+        @keyframes fadeIn {
+            0% { opacity: 0; transform: translateY(30px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        .timeline-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .timeline-header h2 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 3.2rem;
+            color: #f8a4b8;
+            font-weight: 700;
+        }
+
+        .timeline-header h2 span {
+            color: #d48597;
+        }
+
+        .timeline-header .sub {
+            font-family: 'Quicksand', sans-serif;
+            color: #d4a0a8;
+            font-weight: 300;
+            font-size: 1rem;
+            letter-spacing: 3px;
+            margin-top: 2px;
+        }
+
+        .timeline-header .divider {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+            margin-top: 12px;
+        }
+
+        .timeline-header .divider .line {
+            width: 40px;
+            height: 1.5px;
+            background: linear-gradient(to right, transparent, #f8a4b8, transparent);
+        }
+
+        .memory-card {
+            background: #ffffff;
+            border-radius: 28px;
+            padding: 32px 30px;
+            margin-bottom: 30px;
+            border: 1px solid #fce4ec;
+            box-shadow: 0 8px 30px rgba(248, 164, 184, 0.08);
+            transition: transform 0.25s ease, box-shadow 0.3s ease;
+        }
+
+        .memory-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 16px 48px rgba(248, 164, 184, 0.15);
+        }
+
+        .memory-card .era-tag {
+            display: inline-block;
+            background: #fce4ec;
+            color: #d48597;
+            font-size: 0.65rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            padding: 4px 18px;
+            border-radius: 30px;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+            font-family: 'Quicksand', sans-serif;
+        }
+
+        .memory-card h3 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 2rem;
+            color: #d48597;
+            margin-bottom: 2px;
+            font-weight: 700;
+        }
+
+        .memory-card .year {
+            color: #dbb5bc;
+            font-weight: 300;
+            font-size: 0.85rem;
+            margin-bottom: 16px;
+            font-family: 'Quicksand', sans-serif;
+        }
+
+        .memory-card .content {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 22px;
+            align-items: center;
+        }
+
+        .memory-card .content img {
+            width: 140px;
+            height: 140px;
+            object-fit: cover;
+            border-radius: 24px;
+            border: 3px solid #fce4ec;
+            background: #fdf5f7;
+            transition: 0.3s;
+        }
+
+        .memory-card .content img:hover {
+            border-color: #f8a4b8;
+            transform: scale(1.02);
+        }
+
+        .memory-card .content p {
+            flex: 1;
+            color: #6a5055;
+            line-height: 1.8;
+            font-weight: 400;
+            font-size: 0.98rem;
+            min-width: 160px;
+        }
+
+        .memory-card .content p strong {
+            color: #d48597;
+            font-weight: 600;
+        }
+
+        #final-message {
+            text-align: center;
+            margin: 50px 0 20px;
+            padding: 48px 30px;
+            background: linear-gradient(135deg, #fdf5f7, #fce4ec);
+            border-radius: 40px;
+            border: 1.5px solid #fadadd;
+            box-shadow: 0 8px 40px rgba(248, 164, 184, 0.1);
+        }
+
+        #final-message h1 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 3.8rem;
+            color: #f8a4b8;
+            font-weight: 700;
+        }
+
+        #final-message .sub-message {
+            color: #c98a96;
+            font-size: 1.1rem;
+            font-weight: 400;
+            margin-top: 6px;
+        }
+
+        #final-message .love-note {
+            font-size: 0.95rem;
+            margin-top: 18px;
+            color: #d4a0a8;
+            font-weight: 300;
+            letter-spacing: 0.5px;
+        }
+
+        #final-message .heart-divider {
+            font-size: 1.2rem;
+            color: #f8a4b8;
+            margin: 6px 0 4px;
+        }
+
+        #confetti-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 999;
+        }
+
+        @media (max-width: 550px) {
+            #login-screen { padding: 32px 22px; }
+            .timeline-header h2 { font-size: 2.4rem; }
+            .memory-card { padding: 24px 18px; }
+            .memory-card .content img {
+                width: 100%;
+                height: 200px;
+            }
+            #final-message h1 { font-size: 2.8rem; }
+            #final-message { padding: 32px 18px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="login-screen">
+        <h1>🌸 For Nomie</h1>
+        <p class="subtitle">a little time capsule of love</p>
+
+        <div class="input-group">
+            <label for="name-input">What do you call her?</label>
+            <input type="text" id="name-input" placeholder="e.g. Mama, Mommy, Mom" value="Nomie" />
+        </div>
+
+        <div class="input-group">
+            <label for="passcode-input">Secret passcode 🔑</label>
+            <input type="password" id="passcode-input" placeholder="Enter 4-digit code" maxlength="4" />
+        </div>
+
+        <div id="login-error"></div>
+
+        <button id="login-btn">Unlock Memories 💗</button>
+
+        <p class="hint-text">
+            💭 Hint: try her birth year — <strong>1983</strong>
+        </p>
+    </div>
+
+    <div id="timeline">
+        <div class="timeline-header">
+            <h2>✧ <span id="greeting-name">Nomie</span>'s Journey ✧</h2>
+            <p class="sub">— a life full of love, in 4 chapters —</p>
+            <div class="divider">
+                <span class="line"></span>
+                <span style="color:#f8a4b8;">🌸</span>
+                <span class="line"></span>
+            </div>
+        </div>
+
+        <div class="memory-card">
+            <span class="era-tag">🌼 Chapter 1</span>
+            <h3>Little Nomie</h3>
+            <div class="year">~ 1980s</div>
+            <div class="content">
+                <img src="https://placehold.co/400x400/fdf5f7/f8a4b8?text=Childhood+%F0%9F%8C%BC" alt="Childhood" />
+                <p>
+                    Before you were "Mom," you were just <strong>Nomie</strong> — 
+                    a little girl with sparkly eyes, scraped knees, and a heart too big for this world. 
+                    Your mom always said you never stopped smiling. 🌟
+                </p>
+            </div>
+        </div>
+
+        <div class="memory-card">
+            <span class="era-tag">🌷 Chapter 2</span>
+            <h3>Becoming You</h3>
+            <div class="year">~ 2000s</div>
+            <div class="content">
+                <img src="https://placehold.co/400x400/fdf5f7/f8a4b8?text=Young+Adult+%F0%9F%8C%B8" alt="Young adult" />
+                <p>
+                    From your first job to your first love — you built a life with courage. 
+                    You taught me that it's okay to be soft <em>and</em> strong at the same time. 
+                    This is when you became the woman I would look up to forever. 💫
+                </p>
+            </div>
+        </div>
+
+        <div class="memory-card">
+            <span class="era-tag">🌟 Chapter 3</span>
+            <h3>My Whole World</h3>
+            <div class="year">~ 2000s / 2010s</div>
+            <div class="content">
+                <img src="https://placehold.co/400x400/fdf5f7/f8a4b8?text=Family+%F0%9F%92%96" alt="Family" />
+                <p>
+                    And then... <strong>I</strong> arrived. You traded sleep for lullabies, 
+                    freedom for bedtime stories, and your heart grew a new room — just for me. 
+                    You made being a mom look like pure magic. ✨
+                </p>
+            </div>
+        </div>
+
+        <div class="memory-card">
+            <span class="era-tag">💫 Chapter 4</span>
+            <h3>Forever & Always</h3>
+            <div class="year">Today</div>
+            <div class="content">
+                <img src="https://placehold.co/400x400/fdf5f7/f8a4b8?text=Present+Day+%F0%9F%8E%82" alt="Present" />
+                <p>
+                    You are still the same girl from Chapter 1 — just wiser, more radiant, 
+                    and infinitely more loved. Thank you for every hug, every meal, 
+                    every sacrifice. You are my hero, today and always. 🤍
+                </p>
+            </div>
+        </div>
+
+        <div id="final-message">
+            <div class="heart-divider">💗 ⋆｡°✩</div>
+            <h1>🎂 Happy Birthday, <span id="final-greeting">Nomie</span>!</h1>
+            <p class="sub-message">from your very favorite (and only) software dev 🧑‍💻</p>
+            <p class="love-note">
+                I love you more than all the code in the world. <br />
+                🌸 forever & always 🌸
+            </p>
+            <div class="heart-divider">✩°｡⋆ 💗</div>
+        </div>
+    </div>
+
+    <canvas id="confetti-canvas"></canvas>
+
+    <script>
+        const loginScreen = document.getElementById('login-screen');
+        const timeline = document.getElementById('timeline');
+        const loginBtn = document.getElementById('login-btn');
+        const nameInput = document.getElementById('name-input');
+        const passInput = document.getElementById('passcode-input');
+        const errorDiv = document.getElementById('login-error');
+        const greetingNameSpan = document.getElementById('greeting-name');
+        const finalGreetingSpan = document.getElementById('final-greeting');
+
+        const SECRET_CODE = '1983';
+
+        loginBtn.addEventListener('click', () => {
+            const name = nameInput.value.trim() || 'Nomie';
+            const code = passInput.value.trim();
+
+            if (code === SECRET_CODE) {
+                greetingNameSpan.textContent = name;
+                finalGreetingSpan.textContent = name;
+                loginScreen.classList.add('hidden');
+                timeline.classList.add('active');
+                setTimeout(startConfetti, 500);
+                errorDiv.textContent = '';
+            } else {
+                errorDiv.textContent = '💭 Hmm, that\'s not right. Try 1983!';
+                passInput.value = '';
+                passInput.focus();
+            }
+        });
+
+        passInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') loginBtn.click();
+        });
+
+        const canvas = document.getElementById('confetti-canvas');
+        const ctx = canvas.getContext('2d');
+        let width, height;
+        let particles = [];
+        let animationId = null;
+
+        function resizeCanvas() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        const pastelColors = [
+            '#f8a4b8', '#f58da6', '#fadadd', '#fce4ec',
+            '#ffb7c5', '#ffc0cb', '#ffd1dc', '#ffe4e9',
+            '#ffb3c6', '#ff8fab', '#fb6f92'
+        ];
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * height - height;
+                this.size = Math.random() * 8 + 4;
+                this.speedY = Math.random() * 5 + 3;
+                this.speedX = (Math.random() - 0.5) * 3;
+                this.color = pastelColors[Math.floor(Math.random() * pastelColors.length)];
+                this.rotation = Math.random() * 360;
+                this.rotationSpeed = (Math.random() - 0.5) * 8;
+                this.shape = Math.random() > 0.5 ? 'rect' : 'circle';
+            }
+
+            update() {
+                this.y += this.speedY;
+                this.x += this.speedX + Math.sin(this.y * 0.01) * 0.4;
+                this.rotation += this.rotationSpeed;
+                if (this.y > height + 50) {
+                    this.y = -50;
+                    this.x = Math.random() * width;
+                    this.speedY = Math.random() * 5 + 3;
+                    this.color = pastelColors[Math.floor(Math.random() * pastelColors.length)];
+                }
+            }
+
+            draw() {
+                ctx.save();
+                ctx.translate(this.x, this.y);
+                ctx.rotate((this.rotation * Math.PI) / 180);
+                ctx.fillStyle = this.color;
+                ctx.shadowColor = this.color;
+                ctx.shadowBlur = 12;
+                if (this.shape === 'rect') {
+                    ctx.fillRect(-this.size / 2, -this.size / 4, this.size, this.size / 2);
+                } else {
+                    ctx.beginPath();
+                    ctx.arc(0, 0, this.size / 2, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+                ctx.restore();
+            }
+        }
+
+        function startConfetti() {
+            if (animationId) {
+                cancelAnimationFrame(animationId);
+                particles = [];
+            }
+            for (let i = 0; i < 250; i++) {
+                particles.push(new Particle());
+            }
+            animateConfetti();
+        }
+
+        function animateConfetti() {
+            ctx.clearRect(0, 0, width, height);
+            for (let p of particles) {
+                p.update();
+                p.draw();
+            }
+            animationId = requestAnimationFrame(animateConfetti);
+        }
+
+        window.addEventListener('load', () => {
+            for (let i = 0; i < 30; i++) {
+                const p = new Particle();
+                p.y = Math.random() * height;
+                particles.push(p);
+            }
+            animateConfetti();
+        });
+    </script>
+</body>
+</html>
